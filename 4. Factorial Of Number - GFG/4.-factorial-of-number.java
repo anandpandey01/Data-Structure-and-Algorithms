@@ -37,10 +37,9 @@ class Solution {
 
     public long factorial(int N) {
         // Your code here
-        long ans=1;
-        for(int i=1;i<=N;i++){
-           ans=ans*i; 
+        if(N==0){
+            return 1;
         }
-        return ans;
+        return (N*factorial(N-1));
     }
 }
