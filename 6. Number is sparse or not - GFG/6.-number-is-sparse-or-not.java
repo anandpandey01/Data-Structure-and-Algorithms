@@ -16,8 +16,8 @@ class Solution
     {
         // Your code here
         
-           int r= n>>1; 
-           if((n & r)==0){
+           
+           if((n & (n>>1))==0){
                return true;
            }
         return false;
