@@ -35,7 +35,7 @@ class Solution
         int pos=1;
         while(n>0 && (n&1)==0){
             pos++;
-            n=n>>1;
+            n=n/2;
         }
        return pos; 
             
