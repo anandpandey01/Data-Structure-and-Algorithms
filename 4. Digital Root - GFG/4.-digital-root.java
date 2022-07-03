@@ -29,24 +29,14 @@ class Driverclass
 
 class Solution
 {
-    public static int digitalRoot(int n) {
+    // complete the function
+    public static int digitalRoot(int n)
+    {
         // add your code here
-        if (n == 0) {
-            return 0;
+        if(n<10){
+            return n;
         }
-        n = digitalRoot(n / 10) + n % 10;
-
-        if (n > 9) {
-            int ans = 0;
-            while (n > 0) {
-                ans = ans + (n % 10);
-                n = n / 10;
-            }
-            return ans;
-        }
-
-        return n;
-
+        n= n%10 + digitalRoot(n/10);
+        return digitalRoot(n);
     }
-        
 }
