@@ -30,8 +30,8 @@ class StrongestNeighbour{
                 list.add(arr[i]) ;
             }
         }
-        int n = list.size();
-        for(int i=0;i<n;i++){
+        
+        for(int i=0;i<sizeOfArray-1;i++){
             System.out.print(list.get(i)+" ");
         }
          
