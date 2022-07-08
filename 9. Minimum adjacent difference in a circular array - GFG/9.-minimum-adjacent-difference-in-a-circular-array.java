@@ -14,14 +14,13 @@ class Solution{
     public static int minAdjDiff(int arr[], int n) {
         
         // Your code here
-        int res = Math.abs(arr[1]-arr[0]) ;
-        for(int i=1;i<n;i++){
-            if(Math.abs(arr[i]-arr[i-1])<res){
-                res=Math.abs(arr[i]-arr[i-1]);
-            }
-        }
-        return Math.min(res,(Math.abs(arr[n-1]-arr[0])));
-        
+       int res = Math.abs(arr[n-1] - arr[0]);   // the element left in the loop
+  
+        for(int i = 0 ;i<n-1;i++){
+        res = Math.min(Math.abs(arr[i+1]-arr[i]),res);
+     }
+  
+  return res;
     }
 }
 
