@@ -1,18 +1,18 @@
 class Solution {
     public boolean checkIfPangram(String sentence) {
         
-        boolean[]arr=new boolean[26];
-        
-        for(int i=0;i<sentence.length();i++){
-            arr[sentence.charAt(i)-97] = true;
+        if(sentence.length()<26){
+            return false;
         }
         
+        String alpha="abcdefghijklmnopqrstuvwxyz";
         for(int i=0;i<26;i++){
-             if((arr[i])==false){
-                 return false;
-             }
+            if(sentence.indexOf(alpha.charAt(i))==-1){
+                return false;
+            }
         }
-       return true;
+            
+        return true;
         
     }
 }
