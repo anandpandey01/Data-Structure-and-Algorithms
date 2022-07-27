@@ -1,15 +1,14 @@
 class Solution {
     public int[] shuffle(int[] nums, int n) {
         
-        int []res=new int[2*n];
-        for(int i=0;i<2*n;i++){
-            if(i%2==0){
-                res[i]=nums[i/2];
-            }
-            else{
-                res[i]=nums[n+(i/2)];
-            }
+        for(int i=0;i<n;i++){
+            nums[i+n]= nums[i+n]+nums[i]*10000;
         }
-        return res;
+        for(int i=0;i<n;i++){
+            nums[2*i]=nums[n+i]/10000;
+            nums[2*i+1]=nums[n+i]%10000;
+            
+        }
+        return nums;
     }
 }
