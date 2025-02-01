@@ -29,15 +29,13 @@ public class Main {
 class Solution {
     public int getSecondLargest(int[] arr) {
         // Code Here
-        int max = arr[0];
-        int secondmax = -1;
-        
-        for(int i=1;i<arr.length;i++){
+        int max = arr[0], secondmax = -1;
+        for(int i =1;i<arr.length;i++){
             if(arr[i]>max){
                 secondmax = max;
-                max= arr[i];
+                max = arr[i];
             }
-            else if(arr[i]>secondmax && arr[i]!=max){
+            else if(arr[i]>secondmax && arr[i]!=max ){
                 secondmax = arr[i];
             }
         }
