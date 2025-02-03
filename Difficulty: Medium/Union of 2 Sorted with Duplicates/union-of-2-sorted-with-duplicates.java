@@ -50,19 +50,51 @@ class Solution {
     // Function to return a list containing the union of the two arrays.
     public static ArrayList<Integer> findUnion(int a[], int b[]) {
         // add your code here
-        HashSet<Integer> hs = new HashSet<>();
-        for(int i=0;i<a.length;i++) 
-            hs.add(a[i]);
-        for(int i=0;i<b.length;i++) 
-            hs.add(b[i]);
-        
-        ArrayList<Integer> res = new ArrayList<>();
-        for(int x:hs){
-            res.add(x);
+        ArrayList<Integer> list = new ArrayList<Integer>();
+        int n1=a.length,n2=b.length;
+        int first=0,second=0;
+        Integer lastadded = null;
+        while(first< n1 && second < n2){
+            if(a[first]>b[second]){
+                if(lastadded==null || lastadded!=b[second] ){
+                   list.add(b[second]);
+                   lastadded = b[second]; 
+                }
+                second++;
+            }
+            else if(a[first]<b[second]){
+                if(lastadded==null || lastadded!=a[first] ){
+                    list.add(a[first]);
+                    lastadded = a[first]; 
+                }
+                    first++;
+            }
+            else{
+                if(lastadded==null || lastadded!=a[first] ){
+                    list.add(a[first]);
+                    lastadded = a[first];
+                }
+                first++;
+                second++;
+            }
         }
-         Collections.sort(res);
-        return res;
+        while(first<n1){
+            if(lastadded==null || lastadded!=a[first] ){
+                 list.add(a[first]); 
+                 lastadded = a[first];
+            }
+            
+            first++;
+        }
+        while(second<n2){
+            if(lastadded==null || lastadded!=b[second] ){
+                list.add(b[second]);
+                lastadded = b[second];
+            }
+            
+            second++;
+        }
         
+        return list;
     }
-    
 }
