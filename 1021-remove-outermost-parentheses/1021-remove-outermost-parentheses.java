@@ -1,12 +1,19 @@
 class Solution {
     public String removeOuterParentheses(String s) {
+        ArrayDeque<Character> st = new ArrayDeque<>();
         StringBuilder sb = new StringBuilder();
-        int count=0;
-        for(char c : s.toCharArray()){
-            if(c == ')') count--;
-            if(count>0) sb.append(c);
-            if(c=='(') count++;
+    for (char c : s.toCharArray()) {
+        if (c == ')') {
+            st.removeFirst();  
         }
-        return sb.toString();
+        if (!st.isEmpty()) {
+            sb.append(c);  
+        }
+        if (c == '(') {
+            st.addFirst(c);  
+        }      
+    }
+
+    return sb.toString();
     }
 }
