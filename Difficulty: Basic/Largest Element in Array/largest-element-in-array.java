@@ -53,17 +53,11 @@ class GFG {
 class Solution {
     public static int largest(int[] arr) {
         // code here
-        int left = 0, right = arr.length-1,res=0;
-        while(left<=right){
-            if(arr[left]>arr[right]){
-                res = arr[left];
-                right--;
-            }
-            else{
-                res=arr[right];
-                left++;
-            }
+        int max = arr[0];
+        for(int i=1;i<arr.length;i++){
+            if(arr[i]>max)
+                max= arr[i];
         }
-        return res;
+        return max;
     }
 }
