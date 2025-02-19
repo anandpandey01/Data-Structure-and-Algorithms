@@ -4,7 +4,7 @@ class Solution {
         while(low<=high){
             int mid=(low+high)/2;
             if(arr[mid]==x) return true;
-            // Handle duplicates
+            Handle duplicates
             if (arr[low] == arr[mid] && arr[mid] == arr[high]) {
                 low++;
                 high--;
