@@ -29,28 +29,24 @@ System.out.println("~");
 /*Complete the function below*/
 class GfG {
     public Stack<Integer> sort(Stack<Integer> s) {
-        // add code here.
-        return helper(s,0);
+        if (!s.isEmpty()) {
+            int temp = s.pop(); // Remove top element
+            sort(s); // Sort the remaining stack
+            insertSorted(s, temp); // Insert the element at the correct position
+        }
+        return s;
     }
-    Stack<Integer> helper(Stack<Integer> s,int n){
-        if(s.size()==n) return s;
-        Stack<Integer> t = new Stack<>();
-        
-        int min = Integer.MAX_VALUE;
-        
-        while(s.size()!=n){
-            min=Math.min(min,s.peek());
-            t.push(s.pop());
+
+    // Helper function to insert an element into a sorted stack
+    private void insertSorted(Stack<Integer> s, int temp) {
+        if (s.isEmpty() || s.peek() <= temp) {
+            s.push(temp); // If empty or correct position found, push temp
+            return;
         }
-        s.push(min);
-        while(!t.isEmpty()){
-            if(t.peek()==min){
-                t.pop();
-                min=Integer.MAX_VALUE;
-            }
-            else s.push(t.pop());
-        }
-        return helper(s,n+1);
         
+        int top = s.pop(); // Remove the top element
+        insertSorted(s, temp); // Recursively insert temp
+        s.push(top); // Push the popped element back
+    
     }
 }
