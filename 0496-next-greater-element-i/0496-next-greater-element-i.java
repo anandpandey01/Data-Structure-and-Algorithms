@@ -1,32 +1,21 @@
-import java.util.*;
-
 class Solution {
     public int[] nextGreaterElement(int[] nums1, int[] nums2) {
-        Map<Integer, Integer> nextGreaterMap = new HashMap<>();
-        Stack<Integer> stack = new Stack<>();
-        
-        // Traverse nums2 from RIGHT to LEFT
-        for (int i = nums2.length - 1; i >= 0; i--) {
-            int num = nums2[i];
-
-            // Maintain a decreasing stack
-            while (!stack.isEmpty() && stack.peek() <= num) {
-                stack.pop();
+        HashMap<Integer,Integer> hs =  new HashMap<>();
+        Stack<Integer> st = new Stack<>();
+        for(int i=nums2.length-1;i>=0;i--){
+            while(!st.isEmpty() && nums2[i]>st.peek()){
+                st.pop();
             }
-
-            // If stack is empty, no greater element; otherwise, stack's top is NGE
-            nextGreaterMap.put(num, stack.isEmpty() ? -1 : stack.peek());
-
-            // Push the current element to stack
-            stack.push(num);
+            int ng = (st.isEmpty())?-1:st.peek();
+            hs.put(nums2[i],ng);
+            st.push(nums2[i]);
         }
-        
-        // Build the result array for nums1 using the hash map
+
         int[] result = new int[nums1.length];
         for (int i = 0; i < nums1.length; i++) {
-            result[i] = nextGreaterMap.get(nums1[i]);
+            result[i] = hs.get(nums1[i]);
         }
-        
         return result;
+
     }
 }
