@@ -79,12 +79,20 @@ System.out.println("~");
 class Solution {
     public static void createTree(Node root0, ArrayList<Integer> v) {
         // Code here
-        root0.left = new Node(v.get(1));
-        root0.right = new Node(v.get(2));
-        root0.left.left = new Node(v.get(3));
-        root0.left.right = new Node(v.get(4));
-        root0.right.left = new Node(v.get(5));
-        root0.right.right = new Node(v.get(6));
-           
+        Queue<Node> dq = new LinkedList<>();
+        dq.add(root0);
+        int i =1;
+        while(!dq.isEmpty() && i<v.size()){
+            Node curr = dq.poll();
+            if(i<v.size()){
+                curr.left =  new Node(v.get(i++));  
+                dq.add(curr.left);
+            }
+            if(i<v.size()){
+                curr.right = new Node(v.get(i++));
+                dq.add(curr.right);
+            }           
+        }
+            
     }
 }
