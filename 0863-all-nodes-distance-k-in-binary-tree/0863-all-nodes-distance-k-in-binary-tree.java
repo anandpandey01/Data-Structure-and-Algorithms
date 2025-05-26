@@ -30,13 +30,14 @@ class Solution {
         while (k > 0 && !queue.isEmpty()) {   
             int count = queue.size();
             for (int i = 0; i < count; i++) {
-                TreeNode curr = queue.poll();
-                visited.add(curr.val);
+                TreeNode curr = queue.poll();               
                 if (curr.left != null && !visited.contains(curr.left.val)) {
                     queue.add(curr.left);
+                    visited.add(curr.left.val);
                 }
                 if (curr.right != null && !visited.contains(curr.right.val)) {
                     queue.add(curr.right);
+                    visited.add(curr.right.val);
                 }
                 if (parent.containsKey(curr.val) && !visited.contains(parent.get(curr.val).val)) {
                     queue.add(parent.get(curr.val));
