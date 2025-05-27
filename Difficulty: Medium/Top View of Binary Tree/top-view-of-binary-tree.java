@@ -1,5 +1,3 @@
-// User function Template for Java
-
 /*
 class Node{
     int data;
@@ -16,39 +14,36 @@ class Node{
 class Solution {
     // Function to return a list of nodes visible from the top view
     // from left to right in Binary Tree.
+    
+    static class Pair{
+       Node node;
+       int hd;
+       Pair(Node node, int hd){
+           this.node = node;
+           this.hd = hd;
+       }
+    }
     static ArrayList<Integer> topView(Node root) {
-        // code here
-        class Pair{
-            Node node;
-            int hd;
-            Pair(Node n, int h){
-               node = n;
-               hd = h;
-            }
-        }
-        ArrayList<Integer> al = new ArrayList<>();
-        if(root == null) return al;
-        TreeMap<Integer,Integer> map = new TreeMap<>();
+        TreeMap<Integer, Integer> map = new TreeMap<>();
         Queue<Pair> queue = new LinkedList<>();
+        ArrayList<Integer> result = new ArrayList<>();
+        int hd=0;
         queue.add(new Pair(root,0));
         while(!queue.isEmpty()){
-            Pair curr =  queue.poll();
-            Node temp = curr.node;
-            int hd = curr.hd;
-            if(!map.containsKey(hd)){
-                map.put(hd,temp.data);  
+            Pair value = queue.poll();
+            Node curr = value.node;
+            int h = value.hd;
+            if(!map.containsKey(h)){
+                map.put(h,curr.data);
             }
-            if(temp.left!=null) {
-                queue.add(new Pair(temp.left,hd-1));
+            if(curr.left!=null){
+                queue.add(new Pair(curr.left,h-1));
             }
-            if(temp.right!=null) {
-                queue.add(new Pair(temp.right,hd+1));
+            if(curr.right!=null){
+               queue.add(new Pair(curr.right,h+1));
             }
         }
-        
-        al.addAll(map.values());
-        return al;
-        
+        result.addAll(map.values());
+        return result;
     }
-        
-    }
+}
