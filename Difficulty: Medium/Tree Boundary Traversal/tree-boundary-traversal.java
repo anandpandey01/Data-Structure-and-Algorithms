@@ -22,39 +22,35 @@ class Solution {
         addLeafNodes(node,result);
         addRightBoundary(node.right,result);
         return result;
+        
+    }
+    public boolean isLeaf(Node node){
+        return (node.left==null && node.right==null);
     }
     
-    public boolean isLeaf(Node root){
-        return (root.left==null && root.right== null);
-    }
-    
-    public void addLeftBoundary(Node node, ArrayList<Integer> result){
-       while(node!=null){
-           if(!isLeaf(node)) result.add(node.data);
-           if(node.left!=null) node= node.left;
-           else node = node.right;
-       }
-    }
-    public void addLeafNodes(Node node, ArrayList<Integer> result){
-       if(node==null) return;
-        if(isLeaf(node)){
-            result.add(node.data);
-            return;
+    public void addLeftBoundary(Node node,ArrayList<Integer> result){
+        while(node!=null){
+            if(!isLeaf(node)) result.add(node.data);
+            if(node.left!=null) node = node.left;
+            else node = node.right;
         }
-        addLeafNodes(node.left,result);
-        addLeafNodes(node.right,result);
     }
-    public void addRightBoundary(Node node, ArrayList<Integer> result){
+    public void addLeafNodes(Node node,ArrayList<Integer> result){
+        if(node==null) return;
+        if(isLeaf(node)) result.add(node.data);
+         addLeafNodes(node.left,result);
+         addLeafNodes(node.right,result);
+    }
+    public void addRightBoundary(Node node,ArrayList<Integer> result){
         Stack<Integer> st = new Stack<>();
         while(node!=null){
-            if(!isLeaf(node)) st.add(node.data);
-            if(node.right!=null) node= node.right;
-            else node= node.left;
+            if(!isLeaf(node)) st.push(node.data);
+            if(node.right!=null) node = node.right;
+            else node = node.left;
         }
         while(!st.isEmpty()){
             result.add(st.pop());
         }
     }
-    
     
 }
