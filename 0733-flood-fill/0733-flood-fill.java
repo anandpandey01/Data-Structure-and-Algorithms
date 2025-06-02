@@ -1,23 +1,31 @@
 class Solution {
     int rows;
     int cols;
+
     public int[][] floodFill(int[][] image, int sr, int sc, int color) { 
         rows = image.length;
         cols = image[0].length;
         boolean visited[][] = new boolean[rows][cols];
-        dfs(image,sr,sc,color,image[sr][sc]);
+        int curColor = image[sr][sc];
+        Queue<int[]> queue = new LinkedList<>();
+        queue.offer(new int[]{sr,sc});
+        image[sr][sc] = color; // fill // visit
+        while(!queue.isEmpty()){
+                int node[] = queue.poll();
+                int row = node[0];
+                int col = node[1];
+                int [][] adjList = {{row-1,col},{row,col+1},{row+1,col},{row,col-1}};
+                for(int neighbour[] : adjList){
+                int r = neighbour[0];
+                int c = neighbour[1];
+                if(r<0 || r>=rows || c<0 || c>=cols) continue;
+                if(image[r][c]!= curColor) continue;
+                if(image[r][c] == color) continue;
+                queue.offer(new int[]{r,c});
+                image[r][c] = color;
+            }
+        }
         return image;
 
-    }
-    public void dfs(int[][]image, int row, int col, int newColor, int curColor){
-        if(row<0 || row>=rows || col<0 || col>=cols) return;
-        if(image[row][col]!= curColor) return;
-        if(image[row][col] == newColor) return;
-
-        image[row][col] = newColor;
-        int [][] adjList = {{row-1,col},{row,col+1},{row+1,col},{row,col-1}};
-        for(int neighbour[] : adjList){
-            dfs(image,neighbour[0],neighbour[1],newColor,curColor);
-        }
     }
 }
