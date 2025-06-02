@@ -5,20 +5,19 @@ class Solution {
         rows = image.length;
         cols = image[0].length;
         boolean visited[][] = new boolean[rows][cols];
-        dfs(image,visited,sr,sc,color,image[sr][sc]);
+        dfs(image,sr,sc,color,image[sr][sc]);
         return image;
 
     }
-    public void dfs(int[][]image, boolean visited[][], int row, int col, int newColor, int curColor){
+    public void dfs(int[][]image, int row, int col, int newColor, int curColor){
         if(row<0 || row>=rows || col<0 || col>=cols) return;
         if(image[row][col]!= curColor) return;
-        if(visited[row][col] == true) return;
+        if(image[row][col] == newColor) return;
 
         image[row][col] = newColor;
-        visited[row][col] = true;
         int [][] adjList = {{row-1,col},{row,col+1},{row+1,col},{row,col-1}};
         for(int neighbour[] : adjList){
-            dfs(image,visited,neighbour[0],neighbour[1],newColor,curColor);
+            dfs(image,neighbour[0],neighbour[1],newColor,curColor);
         }
     }
 }
