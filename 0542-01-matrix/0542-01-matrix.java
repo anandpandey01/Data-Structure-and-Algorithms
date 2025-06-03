@@ -5,34 +5,38 @@ class Solution {
         rows = mat.length;
         cols = mat[0].length;
         int[][] dist = new int[rows][cols];
+        boolean[][] visited = new boolean[rows][cols];
+        Queue<int[]> queue = new LinkedList<>();
 
-        for (int i = 0; i < rows; i++) {   // Initialize distances: 0 for zeros, -1 for ones
-            for (int j = 0; j < cols; j++) {
-                dist[i][j] = mat[i][j] == 0 ? 0 : -1;
-            }
-        }
-        for (int i = 0; i < rows; i++) {       // Start DFS from all 0-cells
+        // Enqueue all 0s and mark as visited
+        for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 if (mat[i][j] == 0) {
-                    dfs(mat, dist, i, j);
+                    queue.offer(new int[]{i, j});
+                    visited[i][j] = true;
                 }
             }
         }
-        return dist;
-    }
+        int[][] adjList = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
 
-    public void dfs(int[][] mat, int[][] dist, int row, int col) {
-        int[][] adjList = {{row - 1, col},  {row, col + 1}, {row + 1, col}, {row, col - 1}};
+        while (!queue.isEmpty()) {
+            int[] cell = queue.poll();
+            int r = cell[0];
+            int c = cell[1];
 
-        for (int[] neighbour : adjList) {
-            int r = neighbour[0];
-            int c = neighbour[1];
-            if (r < 0 || r >= rows || c < 0 || c >= cols) continue;
-            // If not visited or a shorter distance is found
-            if (dist[r][c] == -1 || dist[r][c] > dist[row][col] + 1) {
-                dist[r][c] = dist[row][col] + 1;
-                dfs(mat, dist, r, c);
+            for (int[] dir : adjList) {
+                int nr = r + dir[0];
+                int nc = c + dir[1];
+
+                if (nr < 0 || nr >= rows || nc < 0 || nc >= cols) continue;
+                if (visited[nr][nc]) continue;
+
+                dist[nr][nc] = dist[r][c] + 1;
+                visited[nr][nc] = true;
+                queue.offer(new int[]{nr, nc});
             }
         }
+
+        return dist;
     }
 }
