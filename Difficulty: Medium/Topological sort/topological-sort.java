@@ -11,31 +11,27 @@ class Solution {
             adjList.get(u).add(v);
             //adjList.get(v).add(u);
         }
-        int[] indegree = new int[V];
-        for(int u=0; u<V; u++){
-            for(int v : adjList.get(u)){
-                indegree[v]++;
-            }
-        }
-        Queue<Integer> queue = new LinkedList<>();
+        Stack<Integer> st = new Stack<>();
+        ArrayList<Integer> res = new ArrayList<>(); 
+        boolean [] visited = new boolean[V];
         for(int i=0; i<V; i++){
-            if(indegree[i]==0)  queue.offer(i);
+            if(visited[i]==false)  dfs(adjList,visited,st,i);
         }
-       
-       ArrayList<Integer> res = new ArrayList<>(); 
-        while(!queue.isEmpty()){
-            int u = queue.poll();
-            res.add(u);
-            for(int v : adjList.get(u)){
-                indegree[v]--;
-                if(indegree[v]==0){
-                    queue.offer(v);
-                }
-            }
+        
+        while(!st.isEmpty()){
+            res.add(st.pop());
         }
-        // Important Check if its not DAG 
-        // if(result.size()!=V)
         return res;
         
     }
+    public static void dfs(ArrayList<ArrayList<Integer>> adjList, boolean [] visited,
+                                    Stack<Integer> st ,int u){
+        visited[u] = true;
+        
+        for(int v:adjList.get(u)){
+              if(visited[v]== false) dfs(adjList,visited,st,v);
+        }
+        st.push(u);
+    }
+    
 }
