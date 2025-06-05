@@ -2,36 +2,37 @@ class Solution {
     public boolean isCyclic(int V, int[][] edges) {
         // code here
         boolean visited[] = new boolean[V];
-        boolean pathVisited[] = new boolean[V];
         ArrayList<ArrayList<Integer>> adjList = new ArrayList<>();
-        for (int i = 0; i < V; i++) adjList.add(new ArrayList<>());
+        for (int i = 0; i< V; i++) adjList.add(new ArrayList<>());
         for(int[]edge : edges){
             int u = edge[0];
             int v = edge[1];
             adjList.get(u).add(v);
         }
-        
+        int[] indegree = new int[V];
+        for(int u=0; u<V; u++){
+            for(int v : adjList.get(u)){
+                indegree[v]++;
+            }
+        }
+        Queue<Integer> queue = new LinkedList<>();
         for(int i=0; i<V; i++){
-            if(visited[i]== false){
-                if(dfs(adjList,visited,pathVisited,i) == true) return true;
+            if(indegree[i]==0)  queue.offer(i);
+        }
+       int count=0;
+        while(!queue.isEmpty()){
+            int u = queue.poll();
+            count++;
+            for(int v : adjList.get(u)){
+                indegree[v]--;
+                if(indegree[v]==0){
+                    queue.offer(v);
+                }
             }
         }
-        return false;
-    }
-    
-    public boolean dfs(ArrayList<ArrayList<Integer>> adjList,boolean visited[],
-                        boolean pathVisited[], int u){
-        visited[u] = true;
-        pathVisited[u] = true;
-        for(int v: adjList.get(u)){
-            if(visited[v]==false){
-                if(dfs(adjList,visited,pathVisited,v) == true) return true;
-            }
-            else if (pathVisited[v] == true)  return true;
-        }
-        pathVisited[u]=false;
-        return false;
+        // Important Check if its not DAG 
+        // if(result.size()!=V)
+        return (count!=V);
         
-                               
     }
 }
