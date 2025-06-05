@@ -8,7 +8,7 @@ class Solution {
         for(int[] neighbour : prerequisites){
             int u = neighbour[0];
             int v = neighbour[1];
-            adjList.get(v).add(u);
+            adjList.get(v).add(u);  // Note this
         }
         int[] indegree = new int[V];
         for(int u=0; u<V; u++){
