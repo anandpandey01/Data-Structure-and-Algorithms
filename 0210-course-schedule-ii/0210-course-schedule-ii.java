@@ -34,6 +34,7 @@ class Solution {
             }
         }
         int[] res = new int[V];
+         if (result.size() != numCourses) return new int[0];
         for(int i=0; i<V; i++){
             res[i] = result.get(i);
         }
