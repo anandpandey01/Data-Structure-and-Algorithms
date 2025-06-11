@@ -13,21 +13,22 @@ class Solution {
         }
         boolean visited[] = new boolean[V];
         for(int i=0; i<V; i++){
-            if(visited[i]== false){
-                if(dfs(V,adjList,visited,i,-1) == true) return true;
+            if(visited[i] == false){
+                if(dfs(adjList,visited,i,-1) == true)  return true;
             }
         }
         return false;
-        
     }
-    public boolean dfs(int V, ArrayList<ArrayList<Integer>> adjList,boolean visited[],int s, int parent){
-        visited[s]=true;
-        for(int v: adjList.get(s)){
-            if(visited[v]==false){
-               if(dfs(V,adjList,visited,v,s) == true) return true; 
+    public boolean dfs(ArrayList<ArrayList<Integer>> adjList,boolean visited[],int u,int parent){
+        visited[u] = true;
+        for(int v: adjList.get(u)){
+            if(visited[v] == false) {
+               if (dfs(adjList,visited,v,u) == true) return true;
             }
-            else if(parent != v) return true;
+            else if(parent != v){
+                return true;
+            }
         }
         return false;
-        }
     }
+}
