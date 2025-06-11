@@ -7,7 +7,7 @@ class Solution {
         int[] rank = new int[V];
         Arrays.sort(edges,(a,b) -> Integer.compare(a[2],b[2]));
         
-        int mst=0,totaledges=0;
+        int mst=0; //totaledges=0;
         for(int[] edge : edges){
             int u =edge[0]; int v = edge[1]; int wt = edge[2];
             
@@ -15,8 +15,8 @@ class Solution {
             if(u_par != v_par){
                 mst= mst+wt;
                 union(par, rank,u_par,v_par);
-                totaledges++;
-                if(totaledges == V-1) break;
+                //totaledges++;
+                //if(totaledges == V-1) break;
             }
         }
         return mst;
