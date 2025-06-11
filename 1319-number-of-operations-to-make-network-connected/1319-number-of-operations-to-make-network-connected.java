@@ -5,7 +5,7 @@ class Solution {
         for (int i = 0; i < n; i++)  parent[i] = i;
         int[] rank = new int[n];
 
-        int wires = n;
+        int components  = n;
         for (int[] edge : connections) {
             int u = edge[0]; int v = edge[1];
             int pu = find(parent, u);
@@ -13,10 +13,10 @@ class Solution {
 
             if (pu != pv) { 
                 union(parent, rank, pu, pv);
-                wires--;     
+                components--;     
             }
         }
-        return wires-1;
+        return components -1;
     }
 
     static int find(int[] parent, int x) {
