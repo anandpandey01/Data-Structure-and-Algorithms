@@ -2,33 +2,29 @@ class Solution {
     public List<Integer> largestDivisibleSubset(int[] nums) {
         Arrays.sort(nums);
         int n = nums.length;
-        int[][] dp = new int[n][n + 1]; // dp[i][prevIndex]
-        for (int[] row : dp) Arrays.fill(row, -1);
-        List<Integer> result = new ArrayList<>();
-        List<Integer> temp = new ArrayList<>();
-        int prev = -1; // Initially Temp is empty
-        solve(nums,result,n,temp,0,prev,dp);
-        return result;
+        int[] dp = new int[n + 1];
+        Arrays.fill(dp, 1);
+        int[] prev = new int[n];
+        Arrays.fill(prev, -1);
 
-    }
-    public int solve(int[] nums,List<Integer> result,int n,List<Integer> temp,int i,int prevIndex,int[][] dp){
-        if(i>= n){
-            if(temp.size()> result.size()) {
-                result.clear();
-                result.addAll(temp);
+        int maxIndex = 0;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                if (nums[i] % nums[j] == 0 && dp[j] + 1 > dp[i]) {
+                    dp[i] = dp[j] + 1;
+                    prev[i] = j;
+                }
             }
-            return 0;
+            if (dp[i] > dp[maxIndex]) {
+                maxIndex = i;
         }
-        if (dp[i][prevIndex + 1] != -1) return dp[i][prevIndex + 1];
-        // Take
-        int taken=0;
-        if(prevIndex== -1 || nums[i] % nums[prevIndex] == 0){
-            temp.add(nums[i]);
-            taken= 1+ solve(nums,result,n,temp,i+1,i,dp);
-            temp.remove(temp.size() - 1);    // For Not Take
         }
-        int skip = solve(nums,result,n,temp,i+1,prevIndex,dp);
-        return dp[i][prevIndex + 1] = Math.max(taken, skip);
-        
+        List<Integer> result = new ArrayList<>();
+        for (int i = maxIndex; i >= 0; i = prev[i]) {
+            result.add(nums[i]);
+            if (prev[i] == -1) break;
+        }
+        Collections.reverse(result);
+        return result;
     }
 }
