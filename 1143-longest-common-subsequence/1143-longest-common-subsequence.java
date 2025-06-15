@@ -11,6 +11,23 @@ class Solution {
                 else dp[i][j] = Math.max(dp[i-1][j],dp[i][j-1]);
             }
         }
+        // If You want to Print 
+        StringBuilder lcs = new StringBuilder();
+        int i=m, j=n;
+        while( i >0 && j >0){
+            if(text1.charAt(i-1)== text2.charAt(j-1)){
+                lcs.append(text1.charAt(i-1));
+                i--; j--;                                   // Will go diagonally
+            } 
+            else{
+                if(dp[i-1][j]>dp[i][j-1]) i--;              // Whichever is greater
+                else j--;
+            }
+        }
+        lcs.reverse();
+        System.out.println(lcs);   //check in stdout
+        // End
+        
         return dp[m][n];
     }
 }
