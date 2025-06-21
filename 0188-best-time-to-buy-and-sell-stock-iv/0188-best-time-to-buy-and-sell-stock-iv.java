@@ -3,23 +3,30 @@ class Solution {
     Integer[][][]dp;
     public int maxProfit(int k, int[] prices) {
         n = prices.length;
-        dp = new Integer[n][2][k+1];
-        return solve(prices,0,1,k);        //1 Buy 0 Sell
-    }
-    public int solve(int[] prices,int i, int flag, int cap){
-        if(i== n) return 0;
-        if(cap ==0 ) return 0;
-        if(dp[i][flag][cap] != null) return dp[i][flag][cap];
-        if(flag==1){
-            int buy =   -prices[i]+ solve(prices,i+1,0,cap);
-            int notBuy = solve(prices,i+1,1,cap);
-            dp[i][flag][cap] = Math.max(buy,notBuy);
+        dp = new Integer[n+1][2][k+1];
+        for(int flag=0; flag<=1; flag++){
+            for(int cap=0;cap<=k;cap++){
+                dp[n][flag][cap] = 0;
+            }
         }
-        else{
-            int sell =    prices[i]+ solve(prices,i+1,1,cap-1);
-            int notSell = solve(prices,i+1,0,cap);
-            dp[i][flag][cap] = Math.max(sell,notSell);
+        for(int i=0; i<=n; i++){
+            for(int flag=0; flag<=1; flag++){
+                dp[i][flag][0] = 0;
+            }
         }
-        return dp[i][flag][cap];
+        for(int i=n-1; i>=0; i--){
+            for(int cap=k; cap>0; cap--){
+
+                int buy =   -prices[i]+ dp[i+1][0][cap];
+                int notBuy = dp[i+1][1][cap];
+                dp[i][1][cap] = Math.max(buy,notBuy);
+
+                int sell =    prices[i]+ dp[i+1][1][cap-1]; 
+                int notSell = dp[i+1][0][cap];  
+                dp[i][0][cap] = Math.max(sell,notSell);
+
+            }
+        }
+        return dp[0][1][k];        
     }
 }
