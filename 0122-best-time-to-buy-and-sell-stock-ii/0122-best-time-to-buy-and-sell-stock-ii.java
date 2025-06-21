@@ -3,25 +3,22 @@ class Solution {
     int[][]dp;
     public int maxProfit(int[] prices) {
         n = prices.length;
-        dp = new int[n][2];
-        for(int i=0; i<n; i++) Arrays.fill(dp[i],-1);
-        return solve(prices,0,1);                       // flag 1 - Buy, 0 - Sell
-    }
-    public int solve(int[] prices, int i, int flag){    
-        if(i==n) return 0;
-
-        if(dp[i][flag]!= -1) return dp[i][flag];
-        int profit=0;
-        if(flag == 1){
-            int buy =    -prices[i] + solve(prices, i+1, 0);
-            int notBuy =  solve(prices, i+1, 1);
-            profit = Math.max(buy,notBuy);
+        dp = new int[n+1][2];               // 1 - Buy, 0 - Sell
+        dp[n][1] = 0;   dp[n][0] = 0;
+        for(int i=n-1; i>=0; i--){
+            for(int flag=0; flag<=1; flag++){
+                if(flag == 1){
+                    int buy =    -prices[i] + dp[i+1][0];
+                    int notBuy =  dp[i+1][1];
+                    dp[i][1] = Math.max(buy,notBuy);
+                }
+                else{
+                    int sell =  prices[i] + dp[i+1][1];
+                    int notSell = dp[i+1][0];
+                    dp[i][0] = Math.max(sell,notSell);
+                }
+            }
         }
-        else{
-            int sell =   prices[i]+ solve(prices, i+1, 1);
-            int notSell = solve(prices,i+1, 0);
-            profit = Math.max(sell,notSell);
-        }
-        return dp[i][flag] = profit;
+        return dp[0][1];
     }
 }
