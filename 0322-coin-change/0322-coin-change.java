@@ -2,25 +2,24 @@ class Solution {
     int n;
     int[][] dp;
     public int coinChange(int[] coins, int amount) {
-        n = coins.length;
-        dp = new int[n][amount+1];
-        for(int i=0; i<n; i++) Arrays.fill(dp[i],-1);
-        int ans = solve(coins, amount, 0);
-        return (ans == Integer.MAX_VALUE)?-1 : ans;
-    }
-    public int solve(int[] coins, int amount, int i){
-        if(amount == 0) return 0;
-        if(i == n) return Integer.MAX_VALUE;
-        if(dp[i][amount]!= -1) return dp[i][amount];
-        int take = Integer.MAX_VALUE;
-        if(coins[i]<=amount){
-            int res = solve(coins, amount - coins[i], i);   // Can take a coin any number of times
-            if (res != Integer.MAX_VALUE) {
-                take = 1 + res;
-            } 
-        }
-        int skip = solve(coins,amount,i+1);
-        return dp[i][amount] = Math.min(take, skip);
+        n = coins.length;  dp = new int[n + 1][amount + 1];
 
+        for (int i = 0; i <= n; i++)  dp[i][0] = 0;
+        for (int j = 1; j <= amount; j++)  dp[0][j] = Integer.MAX_VALUE;
+
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= amount; j++) {
+                int include = Integer.MAX_VALUE;
+                if (coins[i - 1] <= j) {
+                    int res = + dp[i][j - coins[i - 1]];
+                    if (res != Integer.MAX_VALUE) {
+                        include = 1 + res;
+                    }
+                }
+                int exclude = dp[i - 1][j];
+                dp[i][j] = Math.min(include, exclude);
+            }
+        }
+        return dp[n][amount] >= Integer.MAX_VALUE ? -1 : dp[n][amount];
     }
 }
