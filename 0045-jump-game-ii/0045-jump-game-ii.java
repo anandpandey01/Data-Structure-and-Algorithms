@@ -4,20 +4,15 @@ class Solution {
     public int jump(int[] nums) {
         n = nums.length;
         dp = new int[n];
-        Arrays.fill(dp,-1);
-        return solve(nums,0);
-    }
-    public int solve(int[] nums, int i){
-        if(i>=n-1) return 0;
-
-        int minJumps=Integer.MAX_VALUE;
-        if(dp[i]!= -1) return dp[i];
-        for(int jump=1; jump<=nums[i]; jump++){
-            int next = solve(nums, i+jump);
-            if(next!= Integer.MAX_VALUE){
-                minJumps = Math.min(minJumps,1+next);
+        Arrays.fill(dp, Integer.MAX_VALUE); 
+        dp[0] = 0;
+        for(int i=1; i<n; i++){
+            for(int j = i-1; j>=0; j--){
+                if(dp[j] != Integer.MAX_VALUE && nums[j]+j>=i){
+                    dp[i] = Math.min(dp[i],dp[j] + 1);
+                }
             }
         }
-        return dp[i] = minJumps;
-    }
+        return dp[n - 1];
+    }    
 }
