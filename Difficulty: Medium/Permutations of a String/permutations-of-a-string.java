@@ -18,10 +18,10 @@ class Solution {
         HashSet<Character> hs = new HashSet<>();
         for(int i=idx; i<n; i++){
             if(!hs.contains(sb.charAt(i))){
-                hs.add(sb.charAt(i));
                 swap(i,idx,sb);
                 solve(sb,idx+1);
                 swap(i,idx,sb); 
+                hs.add(sb.charAt(i));
             }
             
         }
