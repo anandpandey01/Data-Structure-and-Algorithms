@@ -16,11 +16,13 @@ class Solution {
         // Code here
         int position = 1;
         Node curr = head;
-        while(curr != null && position !=index ){
+        while(curr!= null){
+            if(position == index){
+                return curr.data;
+            }
             curr = curr.next;
             position++;
         }
-        if(curr == null) return -1;
-        else return curr.data;
+        return -1;
     }
 }
