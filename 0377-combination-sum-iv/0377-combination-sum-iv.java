@@ -1,13 +1,21 @@
 class Solution {
+    int[] dp;
     public int combinationSum4(int[] nums, int target) {
-        return solve(nums,target,0);
+        dp = new int[target + 1];
+        Arrays.fill(dp, -1);
+        return solve(nums, target);
     }
-    public int solve(int[] nums, int target,int idx){
-        if(target<0) return 0;
-        if(target == 0) return 1;
-        if(idx >= nums.length) return 0;
-        int take = solve(nums,target-nums[idx],0); // Imp because of 1,3 and 3,1 idx start from 0 for each take
-        int skip = solve(nums,target,idx+1);
-        return take+skip;
+    private int solve(int[] nums, int target) {
+        if (target == 0) return 1;
+        if (dp[target] != -1) return dp[target];
+
+        int ways = 0;
+        for (int num : nums) {
+            if (target - num >= 0) {
+                ways += solve(nums, target - num);
+            }
+        }
+        dp[target] = ways;
+        return ways;
     }
 }
