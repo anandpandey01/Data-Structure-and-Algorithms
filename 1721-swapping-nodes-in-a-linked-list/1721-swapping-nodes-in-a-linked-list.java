@@ -8,31 +8,26 @@
  *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
  * }
  */
+ // Similar to slow fast Instead of moving 1 and 2 think respect to K
 class Solution {
     public ListNode swapNodes(ListNode head, int k) {
-        if(head == null || head.next == null) return head;
+        ListNode p1 = null, p2 = null;
         ListNode curr = head;
-        int n = 1;
-        while(curr.next!= null){
-            n++;
+        while(curr != null){
+            if(p2 != null){
+                p2 = p2.next;
+            }
+            k--;
+            if(k == 0){
+                p1 = curr;
+                p2 = head;    // Activate;
+            }
             curr = curr.next;
         }
+        int temp = p1.val;
+        p1.val = p2.val;
+        p2.val = temp;
 
-        int position = 1;
-        ListNode currStart = head;
-        while(position != k){
-            position++;
-            currStart = currStart.next;
-        }
-        ListNode currEnd = head;
-        position = 1;
-        while(position != n-k+1){
-            position++;
-            currEnd = currEnd.next;
-        }
-        int temp = currStart.val;
-        currStart.val = currEnd.val;
-        currEnd.val = temp;
         return head;
     }
 }
