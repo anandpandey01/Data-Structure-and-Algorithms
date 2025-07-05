@@ -13,40 +13,39 @@ class Node {
 }
 */
 
-class Solution {
+class Solution { 
     public Node copyRandomList(Node head) {
         if(head == null) return head;
-        Map<Node,Node> hs = new HashMap<>();
-        Node curr = head, prev = null;
-        Node newHead = null;
+        Node curr = head;
+        // Creating Nodes in Between
         while(curr!= null){
             Node newNode = new Node(curr.val);
-            hs.put(curr,newNode);
-            if(newHead == null){
-                newHead = newNode;
-                prev = newHead;
+            Node nextNode = curr.next;
+            curr.next = newNode;
+            newNode.next = nextNode;
+            curr = curr.next.next;
+        }
+        // Random Pointer Link
+        curr = head;
+        while(curr!= null && curr.next!= null){
+            if(curr.random == null){
+                curr.next.random = null;
             }
             else{
-                prev.next = newNode;
-                prev      = newNode;
+                curr.next.random = curr.random.next;
             }
-            curr = curr.next;
+            curr = curr.next.next;
         }
-        // Fill Random Pointers
-        curr = head;
+        // Deleting in Between Nodes
+        curr = head; Node newHead = head.next;
         Node newCurr = newHead;
 
-        while(curr!= null){
-            if(curr.random == null){
-                newCurr.random = null;
-            }
-            else{
-                newCurr.random = hs.get(curr.random);
-            }
+        while(curr!= null && newCurr!= null){
+            curr.next = (curr.next == null)? null: curr.next.next;
+            newCurr.next = (newCurr.next == null)? null: newCurr.next.next;
             curr = curr.next;
             newCurr = newCurr.next;
         }
         return newHead;
-
     }
 }
