@@ -10,17 +10,29 @@
  */
 class Solution {
     public boolean isPalindrome(ListNode head) {
-       List<Integer> arr = new ArrayList<>();
-       ListNode curr = head;
-       while(curr != null){
-            arr.add(curr.val);
+        if(head.next == null) return true;
+        // Find the middle pointer
+        ListNode slow = head, fast = head,prevNode = null;
+        while(fast!= null && fast.next!= null){
+            prevNode = slow;
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        // Reverse from middle
+        ListNode prev = null, next = null, curr = slow;
+        while(curr!=null){
+            next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr= next;
+        }
+        prevNode.next = null;    // Break the link
+        curr = head;
+        while(curr!= null && prev!= null){
+            if(curr.val!= prev.val) return false;
             curr = curr.next;
-       }
-       int i=0; int j=arr.size()-1;
-       while(i<j){
-            if(arr.get(i) !=arr.get(j)) return false;
-            i++; j--;
-       }
-       return true;
+            prev = prev.next;
+        }
+        return true;
     }
 }
