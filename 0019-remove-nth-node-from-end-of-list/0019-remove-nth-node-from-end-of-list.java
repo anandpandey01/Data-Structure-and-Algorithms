@@ -20,12 +20,11 @@ class Solution {
             return head.next;
         }
 
-        int position =0; curr = head;
+        int position = L-n; curr = head;
         ListNode prev = null;
-        while(position != L-n){
+        while(position-- >0){
             prev = curr;
             curr = curr.next;
-            position++;
         }
         prev.next = curr.next;
         return head;
