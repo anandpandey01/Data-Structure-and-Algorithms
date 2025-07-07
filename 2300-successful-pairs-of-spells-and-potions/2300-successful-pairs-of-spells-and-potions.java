@@ -4,7 +4,13 @@ class Solution {
         int[] result = new int[m];
         Arrays.sort(potions);
         for(int i=0; i<m; i++){
-            int minPotions = (int)Math.ceil((double)success/spells[i]);
+             int minPotions = (int)Math.ceil((double)success/spells[i]);   //minPotions*spell >=success
+            //Optimise
+            int maxPotionsPossible = potions[potions.length-1];
+            if(minPotions > maxPotionsPossible){
+                result[i] = 0; continue;
+            }
+            //End
             result[i]= bSearchLowerBound(potions,minPotions);
         }
         return result;
