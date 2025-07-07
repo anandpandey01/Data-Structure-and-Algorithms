@@ -1,12 +1,28 @@
-class Solution { //Naive Approach, Either take XOR of two elements OR
-    public int singleNonDuplicate(int[] nums) {
-        int n = nums.length;
-        if(n==1) return nums[0];
-        for(int i=0; i<n-1; i+=2){
-            if(nums[i]!=nums[i+1]){
-                return nums[i];
+class Solution {
+    public int singleNonDuplicate(int[] arr) {
+        int n = arr.length;
+        int low = 0, high = n-1;
+        while(low<high){     //Note
+            int mid = low+(high-low)/2;
+            if(arr[mid]!= arr[mid+1]){
+                int count = high-mid;
+                if(count%2 != 0){   // Odd elements on the right
+                    low = mid+1;
+                }
+                else{
+                    high = mid;   //Note
+                }
+            }
+            else if(arr[mid]== arr[mid+1]){
+                int count = high-mid;
+                if(count%2 != 0){
+                    high = mid-1;
+                }
+                else{
+                    low = mid+2;    //Note
+                }
             }
         }
-        return nums[n-1];
+        return arr[high];
     }
 }
