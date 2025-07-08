@@ -1,39 +1,37 @@
 // User function Template for Java
 class Solution {
-    public static int aggressiveCows(int[] stalls, int k) {
+    public static int aggressiveCows(int[] arr, int k) {
         // code here
-        int n = stalls.length;
-        int max = stalls[0];
+        int n = arr.length;
+        int max = arr[0];
         for(int i=1; i<n; i++){
-            max = Math.max(max,stalls[i]);
+            max = Math.max(max, arr[i]);
         }
+        int low=1, high = max;
         int ans = -1;
-        int low = 1, high = max;
         while(low<=high){
-            int minPossibleDistance = low+(high-low)/2;
-            if(isPossible(stalls,k,minPossibleDistance)){
-                ans = minPossibleDistance;
-                low = minPossibleDistance+1;
+            int maxPossibleDistance = low+(high-low)/2;
+            if(isPossible(arr,k,n,maxPossibleDistance)){
+                ans = maxPossibleDistance;
+                low = maxPossibleDistance+1;
             }
             else{
-                high = minPossibleDistance-1;
+                high = maxPossibleDistance-1;
             }
         }
         return ans;
         
     }
-    public static boolean isPossible(int[] stalls, int k,int minPossibleDistance){
-        int n = stalls.length;
-        Arrays.sort(stalls);     // Note
-        int lastPosition = stalls[0];
-        int cows = 1;
+    public static boolean isPossible(int[] arr, int k, int n, int maxPossibleDistance){
+        Arrays.sort(arr);
+        int lastPosition = arr[0],cows = 1;
         for(int i=1; i<n; i++){
-            if(stalls[i] - lastPosition>=minPossibleDistance){
-                cows++;
-                lastPosition = stalls[i];
+            if(arr[i] - lastPosition >= maxPossibleDistance){
+                cows++;  
+                lastPosition = arr[i];
             }
-            if(cows == k) return true;
         }
-        return false;
+        return (cows>=k);
+        
     }
 }
