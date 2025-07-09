@@ -1,29 +1,41 @@
 // User function Template for Java
 
-class Solution {  // Brute Force
+class Solution {
     public static double findSmallestMaxDist(int stations[], int k) {
         // code here
         int n = stations.length;
-        int[] inBetweenStation = new int[n-1];
-        PriorityQueue<double[]> pq = new PriorityQueue<>((a,b) -> {
-            if(b[0]!=a[0]) return Double.compare(b[0],a[0]);
-            return Integer.compare((int)b[1],(int)a[1]);
-        });
-        
+        double maxDifference = Integer.MIN_VALUE;
         for(int i=0; i<n-1; i++){
-            double difference = stations[i+1]-stations[i];
-            pq.offer(new double[]{difference,i});
+            maxDifference = Math.max(maxDifference, stations[i+1]-stations[i]);
         }
+        double low = 0; double high = maxDifference;
+        double ans = high;
         
-        for(int gas=1; gas<=k; gas++){
-            double[] value = pq.poll();
-            double sectionLength = value[0]; int sectionIndex = (int) value[1];
-            inBetweenStation[sectionIndex]++;
-            double initialDifference = stations[sectionIndex+1]-stations[sectionIndex];
-            double newSectionLength = initialDifference/(inBetweenStation[sectionIndex]+1);
-            pq.offer(new double[]{newSectionLength,sectionIndex});
+        while(high-low> 1e-6){                  // 2 decimal places
+            double maxSectionLength = low+(high-low)/2;
+            if(isPossible(stations,k,n,maxSectionLength)){
+                high = maxSectionLength;
+                ans = high;             // Note not maxDifference
+            }
+            else{
+                low = maxSectionLength;
+            }
         }
-        return pq.peek()[0];
+        return Math.round(ans * 100.0) / 100.0;
+    }
+    public static boolean isPossible(int stations[], int k,int n, double maxSectionLength){
+    int count = 0;  
+    for(int i=1; i<n;i++){
+        double dist = stations[i] - stations[i - 1];
+        double div = (dist / maxSectionLength);
+        int numGasStations = (int)div;
+         // If it is exact Division Reduce by 1
+       if (div == numGasStations) {
+            numGasStations--;
+        }
+        count+=numGasStations;
+    }
         
+     return (count<=k);  
     }
 }
