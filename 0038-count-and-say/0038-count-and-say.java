@@ -1,21 +1,21 @@
 class Solution {
     public String countAndSay(int n) {
-        if(n==1) return "1";
+        if(n == 1) return "1";
         String say = countAndSay(n-1);
-        // Processing
-        StringBuilder result = new StringBuilder();
-        int i=0, len = say.length();
+        int i=0;
+        int len = say.length();
+        StringBuilder sb = new StringBuilder();
         while(i<len){
-            Character current = say.charAt(i);
             int count = 0;
-            while( i<len && say.charAt(i) == current){
+            Character last = say.charAt(i);
+            while(i<len && last == say.charAt(i)){
                 count++;
                 i++;
             }
-            result.append(count);
-            result.append(current);
+            sb.append(count);
+            sb.append(last);    
         }
-        return result.toString();
+        return sb.toString();
 
     }
 }
