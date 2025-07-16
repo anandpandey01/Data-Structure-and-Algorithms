@@ -6,14 +6,16 @@ class Solution {
         int result = 0;
 
         while(j < n){
+            hs.put(fruits[j], hs.getOrDefault(fruits[j],0)+1);
             while(hs.size() > 2){
-                hs.put(fruits[i], hs.getOrDefault(fruits[i],0)-1);
-                if (hs.get(fruits[i]) == 0) {
+                int count = hs.get(fruits[i]) - 1;
+                if(count == 0) {
                     hs.remove(fruits[i]);
+                } else{
+                    hs.put(fruits[i], count);
                 }
                 i++;
             }
-            hs.put(fruits[j], hs.getOrDefault(fruits[j],0)+1);
             result = Math.max(result,j-i+1);
             j++;
         }
