@@ -1,19 +1,27 @@
-class Solution {   //Using PrefixSum Approach
+class Solution {  //Sliding Window
     public int numSubarraysWithSum(int[] nums, int goal) {
         int n = nums.length;
+        int i=0, j=0;
 
-        HashMap<Integer, Integer> hs = new HashMap<>();
-        hs.put(0,1);    // Imp Note
-        int i=0, prefixSum = 0;
-        int count = 0;
-        while(i < n){
-            prefixSum += nums[i];
-            if(hs.containsKey(prefixSum - goal)){
-                count+= hs.get(prefixSum - goal);
+        int window_sum = 0,result = 0;
+        int count_zeros=0;
+        while(j < n){
+            window_sum+=nums[j];
+            while(i< j && (nums[i] == 0 || window_sum > goal)){
+                if(nums[i] == 0) count_zeros++;
+                else count_zeros = 0;
+
+                window_sum-=nums[i];
+                i++;
+
             }
-            hs.put(prefixSum, hs.getOrDefault(prefixSum,0)+1);
-            i++;
+
+            if(window_sum == goal){
+                result = result + 1 + count_zeros;
+            }
+            j++;
         }
-        return count;
+        return result;
+
     }
 }
