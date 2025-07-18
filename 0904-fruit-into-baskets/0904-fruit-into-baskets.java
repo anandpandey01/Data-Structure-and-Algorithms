@@ -7,7 +7,7 @@ class Solution {
 
         while(j < n){
             hs.put(fruits[j], hs.getOrDefault(fruits[j],0)+1);
-            while(hs.size() > 2){
+            if(hs.size() > 2){
                 int count = hs.get(fruits[i]) - 1;
                 if(count == 0) {
                     hs.remove(fruits[i]);
@@ -16,8 +16,10 @@ class Solution {
                 }
                 i++;
             }
-            result = Math.max(result,j-i+1);
-            j++;
+            if(hs.size() <= 2){
+                result = Math.max(result,j-i+1);   
+            }
+            j++;    
         }
         return result;
     }
