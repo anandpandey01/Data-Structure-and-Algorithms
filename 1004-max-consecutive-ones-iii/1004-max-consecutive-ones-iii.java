@@ -6,11 +6,11 @@ class Solution {
 
         while(j < n){
             if(nums[j] == 0) zeros++;
-            while(zeros > k){
+            if(zeros > k){
                 if(nums[i]== 0)   zeros--;
                 i++;
             }
-            if(zeros <= k){
+            if(zeros <= k) {
                 int len = j-i+1;
                 result = Math.max(result,len);
             }
