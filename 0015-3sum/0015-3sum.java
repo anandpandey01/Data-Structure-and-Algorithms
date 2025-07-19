@@ -16,8 +16,8 @@ class Solution {
     }
     public void twoSum(int[] nums, int target, int i, int j){
         while(i < j){
-            if(nums[i] + nums[j] > target) i++;
-            else if(nums[i] + nums[j] < target) j--;
+            if(nums[i] + nums[j] > target) j--;
+            else if(nums[i] + nums[j] < target) i++;
             else{
                 while(i < j && nums[i] == nums[i+1]) i++;
                 while(i < j && nums[j] == nums[j-1]) j--;
