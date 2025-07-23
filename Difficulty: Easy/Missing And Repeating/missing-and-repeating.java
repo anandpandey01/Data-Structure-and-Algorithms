@@ -1,26 +1,19 @@
 class Solution {
     ArrayList<Integer> findTwoElement(int arr[]) {
         // code here
-        int n = arr.length;
-        long sumN = (long) n * (n + 1) / 2;
-        long sumSqN = (long) n * (n + 1) * (2 * n + 1) / 6;
-
-        long sum = 0, sumSq = 0;
-        for (int num : arr) {
-            sum += num;
-            sumSq += (long) num * num;
-        }
-
-        long diff = sum - sumN;            // repeating - missing
-        long sqDiff = sumSq - sumSqN;      // repeating^2 - missing^2
-
-        long sumOfNums = sqDiff / diff;    // repeating + missing
-
-        int repeating = (int) ((diff + sumOfNums) / 2);
-        int missing = (int) (repeating - diff);
-
         ArrayList<Integer> result = new ArrayList<>();
-        result.add(repeating);
+        int n = arr.length;
+        HashMap<Integer,Integer> hs = new HashMap<>();
+        for(int i=0; i<n; i++){
+            hs.put(arr[i],hs.getOrDefault(arr[i],0)+1);
+        }
+        int duplicate = -1, missing = -1;
+        for(int i=1; i<=n; i++){
+            int count = hs.getOrDefault(i,0);
+            if(count == 2)  duplicate = i;
+            if(count == 0)  missing = i;
+        }
+        result.add(duplicate);
         result.add(missing);
         return result;
     }
