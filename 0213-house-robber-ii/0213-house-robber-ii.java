@@ -1,21 +1,23 @@
-class Solution {                    // Memoization
+class Solution {     // Bottom Up
     public int rob(int[] nums) {
         int n= nums.length;
+        int[]dp = new int[n+1];
         if(n==1) return nums[0];
-        int[] dp = new int[n+1];
-        Arrays.fill(dp,-1);
-        int take_0th_house = solve(nums,dp,0,n-2);
-        Arrays.fill(dp,-1);
-        int take_1th_house = solve(nums,dp,1,n-1);
-        return Math.max(take_0th_house,take_1th_house);
-
-    }
-    public int solve(int[] nums, int[]dp,int i,int n){
-        if(i>n) return 0;
-        if(dp[i]!= -1) return dp[i];
-        int steal = nums[i]+solve(nums,dp,i+2,n);
-        int skip = solve(nums,dp,i+1,n);
-        dp[i] = Math.max(steal,skip);
-        return dp[i];
+        dp[0]=0; dp[1]=nums[0];
+        for(int i=1; i<=n-1; i++){
+            int skip = dp[i-1];
+            int steal = nums[i-1]+((i-2)>=0 ?dp[i-2]:0);
+            dp[i] = Math.max(skip,steal);
+        }  
+        int result1 = dp[n-1];
+        Arrays.fill(dp, 0);         // Clear
+        dp[0]=0; dp[1]=0;           // Because we skipped it
+        for(int i=2; i<=n; i++){
+            int skip = dp[i-1];
+            int steal = nums[i-1]+((i-2)>=0 ?dp[i-2]:0);
+            dp[i] = Math.max(skip,steal);
+        }
+        int result2 = dp[n];
+        return Math.max(result1, result2);
     }
 }
