@@ -1,23 +1,29 @@
 class Solution {
-    int rows;
-    int cols;
-    public int[][] floodFill(int[][] image, int sr, int sc, int color) {
-        rows = image.length;
-        cols = image[0].length;
-        dfs(image,sr,sc,image[sr][sc],color);
-        return image;
-    }
-    public void dfs(int[][]image,int row, int col, int curColor, int newColor){
-        if(row<0 || row>=rows || col<0 || col>=cols) return;
-        if(image[row][col] != curColor) return;
-        if(image[row][col] == newColor) return;
+    int m;
+    int n;
+    int[][] dir = {{-1,0},{1,0},{0,1},{0,-1}};
 
-        image[row][col] = newColor;
-        int [][]adjList = {{row-1,col},{row+1,col},{row,col-1},{row,col+1}};
-        for(int[] neighbour : adjList){
-            int r = neighbour[0];
-            int c = neighbour[1];
-            dfs(image,r,c,curColor,newColor);
+    public int[][] floodFill(int[][] image, int sr, int sc, int color) {
+        m = image.length;
+        n = image[0].length;
+        Queue<int[]> queue = new LinkedList<>();
+
+        int startColor = image[sr][sc];
+        if (startColor == color) return image;  // If you wanna avoid below commented line
+        queue.offer(new int[]{sr,sc});
+        image[sr][sc] = color;
+        while(!queue.isEmpty()){
+            int[] node = queue.poll();
+            int r = node[0];  int c = node[1];
+            for(int[] neighbour : dir){
+                int nr = neighbour[0]+r;  int nc = neighbour[1]+c;
+                if(nr < 0 || nr >= m || nc < 0 || nc >= n) continue;
+                if(image[nr][nc] != startColor) continue;
+                //if(image[nr][nc] == color) continue;
+                queue.offer(new int[]{nr, nc});
+                image[nr][nc] = color; 
+            }
         }
+        return image;
     }
 }
