@@ -13,17 +13,19 @@
  *     }
  * }
  */
+ // Its edges not Nodes
 class Solution {
-    private int res = 0;
+    int res = Integer.MIN_VALUE;
     public int diameterOfBinaryTree(TreeNode root) {
+        if(root == null) return 0;
         height(root);
         return res;
     }
     public int height(TreeNode root){
-        if(root==null) return 0;
+        if(root == null) return 0;
         int lh = height(root.left);
         int rh = height(root.right);
-        res = Math.max(res, lh + rh);
-        return 1+Math.max(lh,rh);
+        res = Math.max(res, lh+rh);
+        return 1+ Math.max(lh, rh);
     }
 }
