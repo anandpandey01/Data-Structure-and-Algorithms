@@ -4,19 +4,21 @@ class Solution {
     public int longestCommonSubstr(String s1, String s2) {
         // code here
         int m = s1.length(), n = s2.length();
-        int[][] dp = new int[m+1][n+1];
+        int[] prev = new int[n+1];
         int maxLen = 0;
         
         for(int i=1; i<=m; i++){
+            int[] curr = new int[n+1];
             for(int j=1; j<=n; j++){
                 if(s1.charAt(i-1) == s2.charAt(j-1)){
-                    dp[i][j] = 1 + dp[i-1][j-1];
-                    maxLen = Math.max(maxLen, dp[i][j]);
+                    curr[j] = 1 + prev[j-1];
+                    maxLen = Math.max(maxLen, curr[j]);
                 }
                 else{
-                    dp[i][j] = 0;
+                    curr[j] = 0;
                 }
             }
+            prev = curr;
         }
         return maxLen;
     }
