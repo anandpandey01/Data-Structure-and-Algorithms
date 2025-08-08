@@ -1,46 +1,64 @@
-class Solution {  // Using DFS
+class Solution {
     public List<List<String>> accountsMerge(List<List<String>> accounts) {
-        HashMap<String,List<String>> adjMap = new HashMap<>();
-        // Creating Adjacency Map
-        for(List<String> account : accounts){
-            String firstEmail = account.get(1);
-            for(int i=2; i<account.size(); i++){
-                String email = account.get(i);
-                if(!adjMap.containsKey(firstEmail)){
-                    adjMap.put(firstEmail, new ArrayList<>());
-                }
-                adjMap.get(firstEmail).add(email);
+         int n = accounts.size();
+        int[] parent = new int[n];   for(int i=0; i<n; i++) parent[i] = i;
+        int[] rank = new int[n];
+        HashMap<String, Integer> map = new HashMap<>();    // Map to store email -> account index
 
-                if(!adjMap.containsKey(email)){
-                    adjMap.put(email , new ArrayList<>());
+        for (int i = 0; i < n; i++) {
+            List<String> acc = accounts.get(i);
+            for (int j = 1; j < acc.size(); j++) {
+                String email = acc.get(j);
+                if (!map.containsKey(email)) {
+                    map.put(email, i);
+                } else {
+                    union(parent, rank, i, map.get(email));
                 }
-                adjMap.get(email).add(firstEmail);
             }
         }
-        List<List<String>> res = new ArrayList<>();
-        HashSet<String> visited = new HashSet<>();
 
-        for(List<String> account : accounts){
-            String firstEmail = account.get(1);
-            if(!visited.contains(firstEmail)){
-                List<String> sublist = new ArrayList<>();
-                dfs(firstEmail, visited, adjMap, sublist);
-                Collections.sort(sublist);
-                sublist.add(0,account.get(0));
-                res.add(sublist);
+        // Group emails by their parent account/component
+        HashMap<Integer, List<String>> comp = new HashMap<>();
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+            int i = entry.getValue();
+            int u = findParent(parent,i); 
+            String email = entry.getKey();
+            if (!comp.containsKey(u)) {
+                comp.put(u, new ArrayList<>());
             }
+                comp.get(u).add(email);
+            }
+
+        // Prepare the result list
+        List<List<String>> result = new ArrayList<>();
+        for (int i : comp.keySet()) {
+            List<String> emails = comp.get(i);
+            Collections.sort(emails); 
+            emails.add(0, accounts.get(i).get(0));
+            result.add(emails);
         }
-        return res;
+        return result;
     }
 
-    public void dfs(String u, HashSet<String> visited,HashMap<String,List<String>> adjMap, List<String> sublist){
-        visited.add(u);
-        sublist.add(u);
-        if(!adjMap.containsKey(u))  return;
-        for(String neighbour : adjMap.get(u)){
-            if(!visited.contains(neighbour)){
-                dfs(neighbour,visited,adjMap, sublist);
-            }
+    public static int findParent(int[] parent, int x){
+        if(parent[x] != x) parent[x] = findParent(parent, parent[x]);
+        return parent[x];
+    }
+    public static void union(int[] parent, int[] rank, int x, int y){
+        
+        int px = findParent(parent, x);
+        int py = findParent(parent, y);
+        
+        if(px == py) return ;
+        if(rank[px] > rank[py]){
+           parent[py] = parent[px]; 
         }
+        else if(rank[py] > rank[px]){
+            parent[px] = parent[py]; 
+        }
+        else{
+            parent[py] = parent[px]; 
+            rank[px]++;
+        }   
     }
 }
