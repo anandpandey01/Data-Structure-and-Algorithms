@@ -3,29 +3,22 @@ class Solution {
     public List<String> generateParenthesis(int n) {
         result = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
-        solve(0, n, sb);
+        int open = 0, close = 0;
+        solve(0, n, sb, open, close);
         return result;
     }
-    public void solve(int i, int n, StringBuilder sb){
+    public void solve(int i, int n, StringBuilder sb, int open, int close){
         if(i == (2 * n)){
-            if(isValid(sb)){
-                result.add(sb.toString());
-            } 
+            result.add(sb.toString());
             return;
         }
-        solve(i+1, n, sb.append('('));
-        sb.deleteCharAt(sb.length()-1);
-        solve(i+1, n, sb.append(')'));
-        sb.deleteCharAt(sb.length()-1);
-    }
-    public boolean isValid(StringBuilder sb){
-        int count = 0;
-        for(char ch : sb.toString().toCharArray()){
-            if (ch == '(') count++;
-            else if (ch == ')') count--;
-            if (count < 0) return false; // invalid early
+        if (open < n) { 
+            solve(i+1, n, sb.append('('), open+1, close);
+            sb.deleteCharAt(sb.length()-1);
         }
-        return (count == 0);
+        if (close < open) {
+            solve(i+1, n, sb.append(')'), open, close+1);
+            sb.deleteCharAt(sb.length()-1);
+        }
     }
-
 }
