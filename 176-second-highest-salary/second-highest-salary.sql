@@ -3,4 +3,4 @@
 
 
 Select MAX(salary) AS SecondHighestSalary  from Employee
-where salary NOT IN (Select MAX(salary) from Employee)
+where salary < (Select MAX(salary) from Employee)
